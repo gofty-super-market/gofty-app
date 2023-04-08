@@ -5,6 +5,9 @@ import GlobalStyles from "../components/GlobalStyles"
 import { Button, ScrollView, TouchableOpacity } from "react-native"
 import  Icon  from "@expo/vector-icons/Ionicons"
 import { useState } from "react"
+import CatSlider from "../components/CatSlider"
+import OneCat from "../components/OneCat"
+import GoftyOffer from "../components/GoftyOffer"
 
 const Market = ()=>{
     const [search,setSearch]=useState('')
@@ -13,10 +16,9 @@ const Market = ()=>{
     const [ currentCat , setCurrentCat ] = useState("all")
 
     return(
-        <View>
-
-        <View style={GlobalStyles.AndroidSafeArea} className="border-b-2 border-gray-200 bg-white ">
-            <View className="flex flex-row px-4 pt-4 pb-2 justify-between items-center">
+        <SafeAreaView style={{flex:1}}>
+        <View  className="border-b-2 border-gray-200 pt-2 bg-white ">
+            <View className="flex flex-row px-4 pb-2 justify-between items-center">
                 <Text className="text-4xl  pb-1 font-medium text-gray-700">Market</Text>
                     <TouchableOpacity onPress={()=>{setOpenSearch(p=>!p);setSearch("")}} className="w-10 h-10 flex justify-center items-center bg-white p-2 rounded-full border border-gray-300">
                         {
@@ -44,13 +46,13 @@ const Market = ()=>{
 
             }
         </View>
-        <ScrollView>
+        <ScrollView className="mb-14">
                 <ScrollView horizontal={true} className="flex flex-row gap-x-1 my-1 mx-2  py-1 ">
                     {
                         catagories.map((cat,key)=>{
                             return(
                                 <TouchableOpacity key={key} onPress={()=>setCurrentCat(cat)}>
-                                <Text className={"p-2 px-4 rounded-full border border-gray-300 w-fit bg-white " +(cat==currentCat && " bg-[#95BF6D] text-white font-medium")}>{cat}</Text>
+                                <Text className={"p-2 px-4 rounded-full border border-gray-300 w-fit bg-white " +(cat==currentCat && " bg-[#95BF6D] border-[#7aa354] text-white font-medium px-6")}>{cat}</Text>
                                 </TouchableOpacity>
                             )
                         })
@@ -59,24 +61,28 @@ const Market = ()=>{
 
         <View>
 
-            <View className="h-20 rounded-lg bg-gray-200 m-1"></View>
-            <View className="h-20 rounded-lg bg-gray-200 m-1"></View>
-            <View className="h-20 rounded-lg bg-gray-200 m-1"></View>
-            <View className="h-20 rounded-lg bg-gray-200 m-1"></View>
-            <View className="h-20 rounded-lg bg-gray-200 m-1"></View>
-            <View className="h-20 rounded-lg bg-gray-200 m-1"></View>
-            <View className="h-20 rounded-lg bg-gray-200 m-1"></View>
-            <View className="h-20 rounded-lg bg-gray-200 m-1"></View>
-            <View className="h-20 rounded-lg bg-gray-200 m-1"></View>
-            <View className="h-20 rounded-lg bg-gray-200 m-1"></View>
-            <View className="h-20 rounded-lg bg-gray-200 m-1"></View>
-            <View className="h-20 rounded-lg bg-gray-200 m-1"></View>
-            <View className="h-20 rounded-lg bg-gray-200 m-1"></View>
-            <View className="h-20 rounded-lg bg-gray-200 m-1"></View>
+                    {
+                        currentCat=="all"?
+                        <>
+                        <GoftyOffer/>
+                        {
+                        catagories.map((cat,key)=>{
+                            if(cat!="all"){
+                            return(
+                                <CatSlider title={cat} key={key}></CatSlider>
+                            )
+                            }
+                        })
+                        }
+                        </>
+                        :
+                        <OneCat></OneCat>
+                    }
+        
 
         </View>
         </ScrollView>
-        </View>
+        </SafeAreaView>
     )
 }
 export default Market
