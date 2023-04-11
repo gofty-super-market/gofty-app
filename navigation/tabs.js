@@ -8,32 +8,7 @@ import { Image, StyleSheet, Text, View } from "react-native";
 
 const Tab = createBottomTabNavigator();
 
-const styles = StyleSheet.create({
-    shadow:{
-        shadowColor: "#333",
-        shadowOffset:{
-            width:0,
-            height:15,
-        },
-        shadowOpacity:0.25,
-        shadowRadius:0.5,
-        elevation:15
-    }
-})
 
-  const screenOptions = {
-    tabBarStyle:{
-            position:'absolute',
-            left:0,
-            right:0,
-            paddingHorizontal:20,
-            elevation:0,
-            backgroundColor:"#fff",
-            borderRadius:10,
-            height:60,
-            ...styles.shadow
-    },
-  };
 
 const Tabs = ()=>{
     return(
@@ -62,11 +37,11 @@ const Tabs = ()=>{
              options={{
                 headerShown:false,
                 tabBarIcon:({focused})=>(
-                    <View className={(focused?"bg-[#95BF6D] flex flex-row ":" bg-gray-100 ")+" p-2 rounded-2xl"}>
+                    <View className={(focused?" items-center bg-[#95BF6D] flex flex-row ":" bg-gray-100 ")+" p-2 rounded-2xl"}>
                         {
                             focused?
                             <>
-                            <Image className="w-6 h-6" source={require("../assets/icons/marketWhite.png")}/>
+                            <Image className="w-5 h-5" source={require("../assets/icons/marketWhite.png")}/>
                             <Text className="text-white p-1 font-medium">Market</Text>
                             </>
 
@@ -77,27 +52,33 @@ const Tabs = ()=>{
                 )
             }}/>
             <Tab.Screen name="Cart" component={Cart} options={{
+                headerShown:false,
                 tabBarIcon:({focused})=>(
-                    <View className={(focused?"bg-[#95BF6D] flex-row":" bg-gray-100 ")+" p-2 rounded-2xl duration-200"}>
+                    <View className={(focused?" items-center bg-[#95BF6D] flex-row":" bg-gray-100 ")+" p-2 rounded-2xl duration-200 relative"}>
                         {
                             focused?
                             <>
-                            <Image className="w-6 h-6" source={require("../assets/icons/cartWhite.png")}/>
+                            <Image className="w-5 h-5" source={require("../assets/icons/cartWhite.png")}/>
                             <Text className="text-white p-1 font-medium">Cart</Text>
+                            <View className="w-3 h-3 bg-white border-2 border-[#95bf6d] absolute rounded-full -top-0 -right-0 "></View>
                             </>
                             :
+                            <>
                             <Image className="w-6 h-6" source={require("../assets/icons/cart.png")}/>
+                            <View className="w-3 h-3 bg-[#95bf6d] border-2 border-white absolute rounded-full -top-0 -right-0 "></View>
+                            </>
                         }
                     </View> 
                 )
             }}/>
             <Tab.Screen name="Favorites" component={Favorites} options={{
+                headerShown:false,
                 tabBarIcon:({focused})=>(
-                    <View className={(focused?"bg-[#95BF6D] flex-row":" bg-gray-100 ")+" p-2 rounded-2xl"}>
+                    <View className={(focused?" items-center bg-[#95BF6D] flex-row":" bg-gray-100 ")+" p-2 rounded-2xl"}>
                         {
                             focused?
                             <>
-                            <Image className="w-7 h-7" source={require("../assets/icons/likedWhite.png")}/>
+                            <Image className="w-5 h-5" source={require("../assets/icons/likedWhite.png")}/>
                             <Text className="text-white p-1 font-medium">Liked</Text>
                             </>
                             :
@@ -107,12 +88,13 @@ const Tabs = ()=>{
                 )
             }}/>
             <Tab.Screen name="Profile" component={Profile} options={{
+                headerShown:false,
                 tabBarIcon:({focused})=>(
-                    <View className={(focused?"bg-[#95BF6D] flex-row ":" bg-gray-100 ")+" p-2 rounded-2xl"}>
+                    <View className={(focused?" items-center bg-[#95BF6D] flex-row ":" bg-gray-100 ")+" p-2 rounded-2xl"}>
                         {
                             focused?
                             <>
-                            <Image className="w-6 h-6" source={require("../assets/icons/profileWhite.png")}/>
+                            <Image className="w-5 h-5" source={require("../assets/icons/profileWhite.png")}/>
                             <Text className="text-white p-1 font-medium">Profile</Text>
                             </>
                             :
@@ -126,7 +108,34 @@ const Tabs = ()=>{
 }
 
 
+const styles = StyleSheet.create({
+    shadow:{
+    shadowColor: "#000000",
+    shadowOffset: {
+    width: 0,
+    height: 18,
+    },
+    shadowOpacity:  0.25,
+    shadowRadius: 20.00,
+    elevation: 24
+    }
+})
 
+
+  const screenOptions = {
+    tabBarStyle:{
+            position:'absolute',
+            left:0,
+            right:0,
+            paddingHorizontal:20,
+            elevation:0,
+            backgroundColor:"#fffe",
+            borderTopLeftRadius:25,
+            borderTopRightRadius:25,
+            height:60,
+            justifyContent:"space-between"
+    },
+  };
 
 
 export default Tabs

@@ -27,14 +27,12 @@ const OneCat = ()=>{
     }
 
     return(
-        <View >
                 <FlatList
-                className="mx-3 "
+                className="mx-2 mb-16 mt-4"
                 data={products} 
                 renderItem={CartItem}
                 numColumns={2}
                 />
-        </View>
     )
 }
 export default OneCat

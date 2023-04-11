@@ -18,7 +18,7 @@ const GoftyOffer = ()=>{
         <Text className="text-lg font-medium">GoftyOffer</Text>
         <Text>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor, itaque! Debitis eveniet </Text>
             <View className="flex-row justify-between items-end mt-2">
-            <Text className="text-xl font-medium">100 Dh</Text>
+            <Text className="text-3xl text-gray-700 font-medium">100 Dh</Text>
             <TouchableOpacity className="p-1 px-4 flex-row justify-center items-center bg-[#95BF6D] rounded-xl">
                         <Icon name="add-outline" size={25} color="#fff" />
                         <Text className="text-white font-medium">Add To Cart</Text>
