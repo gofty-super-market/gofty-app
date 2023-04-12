@@ -2,8 +2,9 @@ const { View, Text , ScrollView, SafeAreaView,TouchableOpacity, TextInput } = re
 import Icon from "@expo/vector-icons/Ionicons";
 import CartCard from "../components/CartCard"
 import { useState } from "react";
+import CheckOut from "../components/CheckOut";
 
-const Cart = ()=>{
+const Cart = ({navigation})=>{
 
   const [search, setSearch] = useState("");
   const [openSearch, setOpenSearch] = useState(false);
@@ -64,18 +65,7 @@ const Cart = ()=>{
                 <Text className="text-2xl text-gray-400">Your Cart Is Empty</Text>
                 <Text className="text-gray-400 px-4">add some products to Your cart</Text>
             </View> */}
-        <View className="bg-white p-3 flex-row justify-between items-end">
-            <View>
-                <Text className="">Total Price </Text>
-                <Text className="text-4xl mt-1">156 Dh</Text>
-            </View>
-            <TouchableOpacity className="py-2 px-4 bg-[#95BF6d] rounded-full flex-row gap-x-2 justify-center items-center ">
-                <Text className="text-base font-medium text-white ">
-                    Check out
-                </Text>
-                <Icon name="arrow-forward" size={20} color="#fff" />
-            </TouchableOpacity>
-        </View>
+        <CheckOut navigation={navigation}></CheckOut>
     </SafeAreaView>
     )
 }
