@@ -2,13 +2,16 @@ import { TouchableOpacity } from "react-native"
 import Icon from "@expo/vector-icons/Ionicons";
 import CatSlider from "../components/CatSlider";
 import { useState } from "react";
+import { StyleSheet } from "react-native";
 const { View, Text, SafeAreaView } = require("react-native")
 const Profile = ()=>{
     const [draw,setDraw]=useState(false)
     return(
+
+
     <SafeAreaView style={{ flex: 1 }} className="pb-14">
 
-        <View className="bg-white ">
+        <View className="bg-white " style={styles.shadow} >
         <View className="px-4 pb-2 pt-3 flex-row justify-between items-center">
             <Text className="text-4xl  py-1 font-medium text-gray-700">
               Profile
@@ -29,7 +32,7 @@ const Profile = ()=>{
         </View>
         {
             draw &&
-        <View className="absolute border-gray-200 top-16 m-2 py-2 z-10 right-2 rounded-xl w-36 bg-white border">
+        <View style={styles.shadow}  className="absolute border-gray-200 top-16 m-2 py-2 z-10 right-2 rounded-xl w-36 bg-white border">
             <TouchableOpacity className="flex-row px-3 py-2 items-center">
                 <Icon name="chatbox-outline" size={20} color="#333" />
                 <Text className="ml-2">Contact Us</Text>
@@ -46,7 +49,7 @@ const Profile = ()=>{
             </TouchableOpacity>
         </View>
         }
-        <View className="p-3 m-2 bg-white rounded-2xl relative pt-10 mt-10">
+        <View style={styles.shadow}  className="p-3 m-2 bg-white rounded-2xl relative pt-10 mt-10">
             <View className="absolute left-6 -top-6 w-14 h-14 justify-center mr-1 items-center rounded-2xl bg-[#95BF6D] ">
                 <Text className="text-white text-2xl">AZ</Text>
             </View>
@@ -75,4 +78,17 @@ const Profile = ()=>{
     </SafeAreaView>
     )
 }
+
+const styles = StyleSheet.create({
+    shadow:{
+        shadowColor: "#000000",
+        shadowOffset: {
+          width: 0,
+          height: 1,
+        },
+        shadowOpacity:  0.16,
+        shadowRadius: 1.51,
+        elevation: 2 
+}
+})
 export default Profile

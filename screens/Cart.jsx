@@ -1,13 +1,30 @@
 const { View, Text , ScrollView, SafeAreaView,TouchableOpacity, TextInput } = require("react-native")
 import Icon from "@expo/vector-icons/Ionicons";
 import CartCard from "../components/CartCard"
-import { useState } from "react";
+import { useContext, useState } from "react";
 import CheckOut from "../components/CheckOut";
+import { CartContext } from "../context/CartContext";
+import api from "../axios";
 
 const Cart = ({navigation})=>{
 
   const [search, setSearch] = useState("");
   const [openSearch, setOpenSearch] = useState(false);
+  const {cart , setCart ,setUpdateCart} = useContext(CartContext)
+
+
+  const cleanCart = () => {
+    var cartFormData = new FormData();
+    cartFormData.append("id_client", 111);
+    api({
+      method: "post",
+      url: "cart-clean",
+      data: cartFormData,
+      headers: { "Content-Type": "multipart/form-data" },
+    }).then(() => {
+      setUpdateCart((p) => p + 1);
+    });
+  };
 
     return(
     <SafeAreaView style={{ flex: 1 }} className="pb-14">
@@ -49,23 +66,47 @@ const Cart = ({navigation})=>{
           </View>
         )}
         </View>
+          {
+          cart.length>0 &&
         <ScrollView className="my-1">
-            <CartCard title="test product" q={3} price="12" image="https://ayshadashboard.com/uploads/images/product_image/230208181140-5364062.jpg"/>
+          {
+            cart.filter(item=> item.product.title.toLowerCase().includes(search.toLowerCase()) ).map((item,key)=>{
+              return(
+                <CartCard
+                 key={key}
+                 title={item.product.title}
+                 id_product={item.product.id_product}
+                 price={item.product.price}
+                 image={item.product.image}
+                 quantity={item.quantity}
+                 unite={item.unite}
+                 id_cart={item.id_cart}
+                />
+              )
+            })
+          }
             <View className="flex-row">
-            <TouchableOpacity className="m-4 py-2 px-4 bg-gray-700 rounded-full flex-row items-center">
-              <Text className="text-white mr-2">
+            <TouchableOpacity onPress={cleanCart} className="m-4 py-2 px-4 bg-gray-700 rounded-full flex-row items-center">
+              <Text className="text-white mr-2" >
                 Clear Cart
               </Text>
               <Icon name="trash-outline" size={20} color={"#fff"}></Icon>
             </TouchableOpacity>
             </View>
         </ScrollView>
-            {/* <View className="flex-1 justify-center items-center">
+          }
+        {
+          cart.length==0 &&
+            <View className="flex-1 justify-center items-center">
                 <Icon name="sad-outline" size={80} color="#ccc"/>            
                 <Text className="text-2xl text-gray-400">Your Cart Is Empty</Text>
                 <Text className="text-gray-400 px-4">add some products to Your cart</Text>
-            </View> */}
+            </View>
+        }
+        {
+          cart.length>0 &&
         <CheckOut navigation={navigation}></CheckOut>
+        }
     </SafeAreaView>
     )
 }

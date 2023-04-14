@@ -5,12 +5,16 @@ import Cart from "../screens/Cart";
 import Favorites from "../screens/Favorites";
 import Profile from "../screens/Profile";
 import { Image, StyleSheet, Text, View } from "react-native";
+import { useContext } from "react";
+import { CartContext } from "../context/CartContext";
+import { TouchableOpacity } from "react-native";
 
 const Tab = createBottomTabNavigator();
 
 
 
 const Tabs = ()=>{
+    const {cart , setUpdateCart } = useContext(CartContext)
     return(
 
         <Tab.Navigator
@@ -33,7 +37,7 @@ const Tabs = ()=>{
                 )
             }}/> */}
             <Tab.Screen name="Market" component={Market}
-
+            onPress={()=>setUpdateCart(p=>1+p)}
              options={{
                 headerShown:false,
                 tabBarIcon:({focused})=>(
@@ -54,18 +58,18 @@ const Tabs = ()=>{
             <Tab.Screen name="Cart" component={Cart} options={{
                 headerShown:false,
                 tabBarIcon:({focused})=>(
-                    <View className={(focused?" items-center bg-[#95BF6D] flex-row":" bg-gray-100 ")+" p-2 rounded-2xl duration-200 relative"}>
+                    <View className={(focused?" items-center bg-[#95BF6D] flex flex-row ":" bg-gray-100 ")+" p-2 rounded-2xl"}>
                         {
                             focused?
                             <>
                             <Image className="w-5 h-5" source={require("../assets/icons/cartWhite.png")}/>
                             <Text className="text-white p-1 font-medium">Cart</Text>
-                            <View className="w-3 h-3 bg-white border-2 border-[#95bf6d] absolute rounded-full -top-0 -right-0 "></View>
+                            { cart.length>0 && <View className="w-3 h-3 bg-white border-2 border-[#95bf6d] absolute rounded-full -top-0 -right-0 "></View> }
                             </>
                             :
                             <>
                             <Image className="w-6 h-6" source={require("../assets/icons/cart.png")}/>
-                            <View className="w-3 h-3 bg-[#95bf6d] border-2 border-white absolute rounded-full -top-0 -right-0 "></View>
+                            { cart.length>0 && <View className="w-3 h-3 bg-[#95bf6d] border-2 border-white absolute rounded-full -top-0 -right-0 "></View>}
                             </>
                         }
                     </View> 

@@ -1,16 +1,73 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Icon from "@expo/vector-icons/Ionicons";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import api from "../axios";
+import { CartContext } from "../context/CartContext";
 
-const CartCard = ({ title, price, image, all = true }) => {
+const CartCard = ({ title, price, quantity,image,id_product,unite,id_cart }) => {
   const [q, setQ] = useState(0);
   const [favorite, setFavorite] = useState(false);
-  const add = () => {
-    setQ((q) => q + 1);
-  };
-  const remove = () => {
-    setQ((q) => q - 1);
-  };
+  const {setUpdateCart} = useContext(CartContext)
+  
+
+
+
+  const handelQP = () => {
+    var cartFormData = new FormData();
+    cartFormData.append('id_client', 111)
+    cartFormData.append('id_product', id_product)
+    cartFormData.append('quantity', Number(quantity) + 1)
+    cartFormData.append('unite', unite)
+    api(
+        {
+            method: "post",
+            url: "cart-update",
+            data: cartFormData,
+            headers: { "Content-Type": "multipart/form-data" },
+        }
+    ).then(() => {
+        setUpdateCart(p => p + 1)
+    })
+}
+const handelQM = () => {
+    if (quantity>1) {
+        var cartFormData = new FormData();
+        cartFormData.append('id_client', 111)
+        cartFormData.append('id_product', id_product)
+        cartFormData.append('quantity', Number(quantity) - 1)
+        cartFormData.append('unite', unite)
+        api(
+            {
+                method: "post",
+                url: "cart-update",
+                data: cartFormData,
+                headers: { "Content-Type": "multipart/form-data" },
+            }
+        ).then(() => {
+            setUpdateCart(p => p + 1)
+        })
+    }
+}
+
+const handelRemove = (id) => {
+        var cartFormData = new FormData();
+        cartFormData.append('id_cart', id_cart)
+        api(
+            {
+                method: "post",
+                url: "cart-delete",
+                data: cartFormData,
+                headers: { "Content-Type": "multipart/form-data" },
+            }
+        ).then(() => {
+            setUpdateCart(p => p + 1)
+        })
+}
+
+
+
+
+
   return (
     <View
       style={styles.shadow}
@@ -19,22 +76,22 @@ const CartCard = ({ title, price, image, all = true }) => {
       }
     >
       <Image
-        className={"w-28 h-28 object-fill"}
+        className={"w-28 h-26 object-fill m-2"}
         style={{ resizeMode: "contain" }}
         source={{
-          uri: image,
+          uri: "https://ayshadashboard.com/" + image,
         }}
       />
       <View className="p-2 flex-1">
-        <Text className="text-base">{title}</Text>
+        <Text className="h-5">{title}</Text>
         <Text className="text-xl">{price} Dh</Text>
         <View className="flex-row mt-2">
           <View className="flex-row items-center bg-white border border-gray-200 rounded-full">
-            <TouchableOpacity className="rounded-full  w-8 h-8 justify-center items-center">
+            <TouchableOpacity onPress={handelQM} className="rounded-full  w-8 h-8 justify-center items-center">
               <Icon name="remove" size={20} color="#777" />
             </TouchableOpacity>
-            <Text className="px-2">{q}</Text>
-            <TouchableOpacity className="rounded-full  w-8 h-8 justify-center items-center">
+            <Text className="px-2">{quantity}</Text>
+            <TouchableOpacity onPress={handelQP} className="rounded-full  w-8 h-8 justify-center items-center">
               <Icon name="add" size={20} color="#777" />
             </TouchableOpacity>
           </View>
@@ -42,7 +99,7 @@ const CartCard = ({ title, price, image, all = true }) => {
       </View>
 
       <View className="p-2">
-        <TouchableOpacity className="rounded-full border border-gray-200 w-8 h-8 justify-center items-center">
+        <TouchableOpacity onPress={handelRemove} className="rounded-full border border-gray-200 w-8 h-8 justify-center items-center">
           <Icon name="close" size={18} color="#777" />
         </TouchableOpacity>
       </View>
