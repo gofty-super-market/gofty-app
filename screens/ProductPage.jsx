@@ -1,5 +1,9 @@
-import { SafeAreaView, TouchableHighlight, TouchableOpacity } from "react-native"
-import  Icon  from "@expo/vector-icons/Ionicons"
+import {
+  SafeAreaView,
+  TouchableHighlight,
+  TouchableOpacity,
+} from "react-native";
+import Icon  from "@expo/vector-icons/Ionicons"
 import { ScrollView ,Image , Text,View } from "react-native"
 import CatSlider from "../components/CatSlider"
 import OneCat from "../components/OneCat"
@@ -9,6 +13,7 @@ import api from "../axios"
 import { CartContext } from "../context/CartContext"
 import { FavoriteContext } from "../context/FavoriteContext"
 import { UserContext } from "../context/UserContext"
+import { Alert } from "react-native";
 
 const ProductPage =({navigation})=>{
     const [q,setQ]=useState(1)
@@ -76,7 +81,17 @@ const ProductPage =({navigation})=>{
               setUpdateCart((p) => p + 1);
             });
           }
-        }
+      }else{
+        Alert.alert('you may need to login', "it's easy and will take only a min from your time", [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {text: 'Login', onPress: () => navigation.navigate('signin')},
+        ]);
+    
+      }
       };
 
       const handelQChange = (i) => {
@@ -154,7 +169,17 @@ const ProductPage =({navigation})=>{
           });
         }
         setUpdateFavs(p=>p+1)
-        }
+      }else{
+        Alert.alert('you may need to login', "it's easy and will take only a min from your time", [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {text: 'Login', onPress: () => navigation.navigate('signin')},
+        ]);
+    
+      }
       };
 
 

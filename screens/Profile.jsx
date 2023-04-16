@@ -69,10 +69,10 @@ const Profile = ({navigation})=>{
             }
         </View>
         }
-        <ScrollView>
         {
             userId?
         <>
+        <ScrollView className="flex-1 ">
         <View style={styles.shadow}  className="p-3 m-2 bg-white rounded-2xl relative pt-10 mt-10">
             <View className="absolute left-6 -top-6 w-14 h-14 justify-center mr-1 items-center rounded-2xl bg-[#95BF6D] ">
                 <Text className="text-white text-2xl">{ userInfo?.fname?.toUpperCase()[0] + userInfo?.lname?.toUpperCase()[0]  }</Text>
@@ -93,8 +93,10 @@ const Profile = ({navigation})=>{
             </View>
         </View>
         <Orders navigation={navigation}></Orders>
-        </>:
-        <View className="flex-1 justify-center items-center">
+        </ScrollView>
+        </>
+        :
+        <View className="flex-1 justify-center items-center ">
             <Text className="text-2xl text-gray-700 font-medium p-2 px-4">Please Signin </Text>
             <TouchableOpacity onPress={()=>navigation.navigate("signin")} className="px-6 py-3 items-center flex-row bg-[#95BF6D] rounded-full m-3">
                 <Text className="text-white mr-2 text-base font-bold">Sign In</Text>
@@ -102,7 +104,6 @@ const Profile = ({navigation})=>{
             </TouchableOpacity>
         </View>
         }
-        </ScrollView>
     </SafeAreaView>
     )
 }

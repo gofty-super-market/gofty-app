@@ -28,7 +28,7 @@ const SignIn = ({navigation,setSignUp}) => {
         </TouchableOpacity>
         </View>
         <View className="flex-row">
-            <TouchableOpacity onPress={()=>navigation.navigate("Home")} className="flex-row items-center p-2 bg-gray-200 rounded-full px-4">
+            <TouchableOpacity onPress={()=>navigation.goBack()} className="flex-row items-center p-2 bg-gray-200 rounded-full px-4">
                 <Text className="text-gray-700">Skip </Text>
             </TouchableOpacity>
         </View>

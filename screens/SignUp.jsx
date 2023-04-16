@@ -111,7 +111,7 @@ const SignUp = ({ navigation }) => {
       if (res.data == "1") {
         setUserId(Res);
         AsyncStorage.setItem("userId", Res);
-        navigation.navigate("wlcm");
+        navigation.goBack();
       } else {
         alert("code validation is not correct");
       }
@@ -256,7 +256,7 @@ const SignUp = ({ navigation }) => {
           </View>
           <View className="flex-row">
             <TouchableOpacity
-              onPress={() => navigation.navigate("Home")}
+              onPress={() => navigation.goBack()}
               className="flex-row items-center p-2 bg-gray-200 rounded-full px-4"
             >
               <Text className="text-gray-700">Skip </Text>

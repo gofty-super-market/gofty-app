@@ -24,7 +24,7 @@ const CheckOutPage = ({navigation}) => {
 
   useEffect(()=>{
     if (cart.length==0) {
-      navigation.navigate("Home") 
+      navigation.goBack() 
     }
   },[])
 
@@ -191,7 +191,7 @@ const CheckOutPage = ({navigation}) => {
 
     </ScrollView>
         <View className="flex-row justify-end items-end py-2 bg-white p-4">
-          <TouchableOpacity onPress={()=>{navigation.navigate("Home")}} className="py-2 px-4 bg-gray-200 rounded-full mr-4  justify-center items-center ">
+          <TouchableOpacity onPress={()=>{navigation.goBack()}} className="py-2 px-4 bg-gray-200 rounded-full mr-4  justify-center items-center ">
             <Text className="text-base font-medium text-gray-600 ">cancel</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={checkout} className="py-2 px-4 bg-[#95BF6d] rounded-full flex-row gap-x-2 justify-center items-center ">

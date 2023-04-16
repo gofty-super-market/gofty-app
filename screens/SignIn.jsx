@@ -13,8 +13,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const SignIn = ({navigation}) => {
-    const [email, onChangeEmail]=useState("tchisamasamatchi@gmail.com")
-    const [password,onChangePassword]=useState("20012017")
+    const [email, onChangeEmail]=useState("")
+    const [password,onChangePassword]=useState("")
 
 
     const { setUserId }= useContext(UserContext);
@@ -47,7 +47,7 @@ const SignIn = ({navigation}) => {
                     AsyncStorage.setItem("userId",response.data)
                     setUpdateCart(p=>p+1)
                     setUpdateFavs(p=>p+1)
-                navigation.navigate('wlcm')
+                navigation.goBack()
                 }else{
                     alert("something went wrong")
                 }
@@ -85,7 +85,7 @@ const SignIn = ({navigation}) => {
         </TouchableOpacity>
         </View>
         <View className="flex-row">
-            <TouchableOpacity onPress={()=>navigation.navigate("Home")} className="flex-row items-center p-2 bg-gray-200 rounded-full px-4">
+            <TouchableOpacity onPress={()=>navigation.goBack()} className="flex-row items-center p-2 bg-gray-200 rounded-full px-4">
                 <Text className="text-gray-700">Skip </Text>
             </TouchableOpacity>
         </View>

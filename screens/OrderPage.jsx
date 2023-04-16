@@ -47,7 +47,7 @@ const OrderPage = ({ navigation }) => {
           headers: { "Content-Type": "multipart/form-data" },
         }).then((res) => {
           setUpdateCart((p) => p + 1);
-          navigation.navigate("Home");
+          navigation.goBack();
         });
       }
     }

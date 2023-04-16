@@ -15,7 +15,7 @@ const Wlcm = ({navigation}) => {
             <Text className=" text-base text-center font-semibold text-gray-700">are you ready to explore our market</Text>
         </View>
         <View className="flex-row justify-end p-3">
-            <TouchableOpacity onPress={()=>navigation.navigate("Home")} className=" px-6 py-3  bg-[#95BF6D]  rounded-full">
+            <TouchableOpacity onPress={()=>navigation.goBack()} className=" px-6 py-3  bg-[#95BF6D]  rounded-full">
                 <Text className="text-white font-semibold text-base">
                     Start Shopping
                 </Text>

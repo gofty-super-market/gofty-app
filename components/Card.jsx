@@ -6,6 +6,7 @@ import { CartContext } from "../context/CartContext";
 import api from "../axios";
 import { FavoriteContext } from "../context/FavoriteContext";
 import { UserContext } from "../context/UserContext";
+import { Alert } from "react-native";
 
 const Card = ({title,price,image,id_product,all=true,navigation,render}) => {
     const [q,setQ]=useState(0);
@@ -82,6 +83,16 @@ const Card = ({title,price,image,id_product,all=true,navigation,render}) => {
           })
       }
 
+      }else{
+        Alert.alert('you may need to login', "it's easy and will take only a min from your time", [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {text: 'Login', onPress: () => navigation.navigate('signin')},
+        ]);
+    
       }
     }
 
@@ -176,6 +187,17 @@ const Card = ({title,price,image,id_product,all=true,navigation,render}) => {
         });
       }
       setUpdateFavs(p=>p+1)
+      
+      }else{
+        Alert.alert('you may need to login', "it's easy and will take only a min from your time", [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {text: 'Login', onPress: () => navigation.navigate('signin')},
+        ]);
+    
       }
     };
 
@@ -212,7 +234,7 @@ const Card = ({title,price,image,id_product,all=true,navigation,render}) => {
             {
                 favorite? 
                     (render=="favorites"?
-                    <Icon name="close" size={25} color="#f39221" />
+                    <Icon name="close" size={18} color="#888" />
                     :
                     <Icon name="heart" size={25} color="#f39221" />)
                     :

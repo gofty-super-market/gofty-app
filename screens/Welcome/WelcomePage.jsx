@@ -14,23 +14,12 @@ const WelcomePage = ({ navigation }) => {
   useEffect(() => {
     setTimeout(() => {
         setLoading(true)
-    }, 2000);
+    }, 500);
   }, []);
   const move = () => {
-    AsyncStorage.setItem("Open", "yeah!");
-    if (userId) {
-      navigation.navigate("Home");
-    } else {
-      navigation.navigate("signin");
-    }
+    AsyncStorage.setItem("Open", "opened");
+      navigation.goBack();
   };
-  useEffect(() => {
-    AsyncStorage.getItem("Open").then((value) => {
-      if (value != undefined) {
-        navigation.navigate("Home");
-      }
-    });
-  }, []);
   return (
     <SafeAreaView className="bg-white flex-1">
       {loading && (

@@ -5,16 +5,26 @@ import Cart from "../screens/Cart";
 import Favorites from "../screens/Favorites";
 import Profile from "../screens/Profile";
 import { Image, StyleSheet, Text, View } from "react-native";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { CartContext } from "../context/CartContext";
 import { TouchableOpacity } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Tab = createBottomTabNavigator();
 
 
 
-const Tabs = ()=>{
+const Tabs = ({navigation})=>{
     const {cart , setUpdateCart } = useContext(CartContext)
+
+  useEffect(() => {
+    AsyncStorage.getItem("Open").then((value) => {
+      if (value !== "opened") {
+        navigation.navigate("welcome");
+      }
+    });
+  }, []);
+
     return(
 
         <Tab.Navigator

@@ -149,8 +149,8 @@ export default function App() {
               <NavigationContainer>
                   <StatusBar backgroundColor={theme == 'Light' ? '#fff' : '#000'} barStyle={theme == 'Light' ? 'dark-content' : 'light-content'}/>
               <Stack.Navigator>
-                <Stack.Screen name="welcome" options={{headerShown:false}} component={WelcomePage} />
                 <Stack.Screen name="Home" options={{headerShown:false}} component={Tabs} />
+                <Stack.Screen name="welcome" options={{headerShown:false}} component={WelcomePage} />
                 <Stack.Screen name="checkout"  options={{headerShown:false}} component={CheckOutPage}  />
                 <Stack.Screen name="product"  options={{headerShown:false}} component={ProductPage}  />
                 <Stack.Screen name="signup"  options={{headerShown:false}} component={SignUp}  />

@@ -29,7 +29,7 @@ const Orders = ({navigation}) => {
       <Text className="text-2xl text-gray-700 font-medium p-2 px-4">
         Order History
       </Text>
-      {history ? (
+      {history.length>0 ? (
         <View>
           {history.map((order,key) => {
             return (
@@ -53,7 +53,7 @@ const Orders = ({navigation}) => {
           })}
         </View>
       ) : (
-        <View className="flex-1 justify-center items-center">
+        <View className="flex-1 pt-20 justify-center items-center">
           <Icon name="cube-outline" size={80} color="#ccc" />
           <Text className="text-xl text-gray-400 ">
             The Order History is empty
