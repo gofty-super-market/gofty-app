@@ -5,8 +5,9 @@ import { CatsContext } from "../context/CatsContext";
 import { CartContext } from "../context/CartContext";
 import api from "../axios";
 import { FavoriteContext } from "../context/FavoriteContext";
+import { UserContext } from "../context/UserContext";
 
-const Card = ({title,price,image,id_product,all=true,navigation}) => {
+const Card = ({title,price,image,id_product,all=true,navigation,render}) => {
     const [q,setQ]=useState(0);
     const [isAdded,setIsAdded]=useState(false);
     var working = false ;
@@ -14,7 +15,7 @@ const Card = ({title,price,image,id_product,all=true,navigation}) => {
 
     const {currentProduct,setCurrentProduct} = useContext(CatsContext);
     const {cart ,setCart,updateCart,setUpdateCart} = useContext(CartContext)
-
+    const {userId , setUserId}= useContext(UserContext)
 
     useEffect(() => {
       let r = cart.filter((item)=> item.id_product == id_product)
@@ -44,9 +45,11 @@ const Card = ({title,price,image,id_product,all=true,navigation}) => {
     
 
     const add=()=>{
+      if(userId){
+
       if(isAdded==false){
         var cartFormData = new FormData();
-        cartFormData.append("id_client", 111);
+        cartFormData.append("id_client", userId);
         cartFormData.append("id_product", id_product);
         cartFormData.append("quantity", 1);
         cartFormData.append("unite", "item");
@@ -63,7 +66,7 @@ const Card = ({title,price,image,id_product,all=true,navigation}) => {
           })
       }else{
         var cartFormData = new FormData();
-        cartFormData.append("id_client", 111);
+        cartFormData.append("id_client", userId);
         cartFormData.append("id_product", id_product);
         cartFormData.append("quantity", Number(q) + 1);
         cartFormData.append("unite", "itme");
@@ -79,12 +82,15 @@ const Card = ({title,price,image,id_product,all=true,navigation}) => {
           })
       }
 
+      }
     }
 
 
     const remove=()=>{
+        if (userId) {
+          
         var cartFormData = new FormData();
-        cartFormData.append("id_client", 111);
+        cartFormData.append("id_client", userId);
         cartFormData.append("id_product", id_product);
         cartFormData.append("quantity", Number(q) - 1);
         cartFormData.append("unite", "item");
@@ -113,6 +119,7 @@ const Card = ({title,price,image,id_product,all=true,navigation}) => {
                 setUpdateCart((pre) => pre + 1)
               }
           })
+        }
     }
 
 
@@ -142,9 +149,11 @@ const Card = ({title,price,image,id_product,all=true,navigation}) => {
     };
   
     const handleFav = () => {
+      if(userId){
+
       if (!favorite) {
         const FavFormData = new FormData();
-        FavFormData.append("id_client", 111);
+        FavFormData.append("id_client", userId);
         FavFormData.append("id_product", id_product);
         api({
           method: "post",
@@ -167,6 +176,7 @@ const Card = ({title,price,image,id_product,all=true,navigation}) => {
         });
       }
       setUpdateFavs(p=>p+1)
+      }
     };
 
 
@@ -201,7 +211,10 @@ const Card = ({title,price,image,id_product,all=true,navigation}) => {
         <TouchableOpacity className="border border-gray-200 top-1 right-1 w-8 h-8 flex justify-center items-center bg-[#fff8] rounded-full absolute " onPress={handleFav}>
             {
                 favorite? 
-                    <Icon name="heart" size={25} color="#f39221" />
+                    (render=="favorites"?
+                    <Icon name="close" size={25} color="#f39221" />
+                    :
+                    <Icon name="heart" size={25} color="#f39221" />)
                     :
                     <Icon name="heart-outline" size={25} color="#f39221" />
 

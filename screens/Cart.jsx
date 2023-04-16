@@ -5,17 +5,20 @@ import { useContext, useState } from "react";
 import CheckOut from "../components/CheckOut";
 import { CartContext } from "../context/CartContext";
 import api from "../axios";
+import { UserContext } from "../context/UserContext";
 
 const Cart = ({navigation})=>{
 
   const [search, setSearch] = useState("");
   const [openSearch, setOpenSearch] = useState(false);
   const {cart , setCart ,setUpdateCart} = useContext(CartContext)
+  const {userId , setUserId}= useContext(UserContext)
 
 
   const cleanCart = () => {
+    if (userId) {
     var cartFormData = new FormData();
-    cartFormData.append("id_client", 111);
+    cartFormData.append("id_client", userId);
     api({
       method: "post",
       url: "cart-clean",
@@ -24,6 +27,7 @@ const Cart = ({navigation})=>{
     }).then(() => {
       setUpdateCart((p) => p + 1);
     });
+    }
   };
 
     return(

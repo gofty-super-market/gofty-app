@@ -78,6 +78,8 @@ const Market = ({navigation}) => {
       <CatBar></CatBar>
 
         {currentCat == "all" && (
+          search?
+          <OneCat navigation={navigation} render="search" search={search} For="all"></OneCat>:
           <View className="mb-16">
             <GoftyOffer />
             <CatSlider navigation={navigation} ttl={"New Products"}></CatSlider>
@@ -86,7 +88,12 @@ const Market = ({navigation}) => {
         )}
       {
         currentCat!="all"&&
-        <OneCat navigation={navigation}></OneCat>
+        (
+          search?
+          <OneCat navigation={navigation} render="search" search={search} For="cat"></OneCat>
+          :
+          <OneCat navigation={navigation} render="cat" For="cat"></OneCat>
+        )
       }
       </ScrollView>
 

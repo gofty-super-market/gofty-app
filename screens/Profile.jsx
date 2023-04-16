@@ -1,11 +1,17 @@
 import { TouchableOpacity } from "react-native"
 import Icon from "@expo/vector-icons/Ionicons";
 import CatSlider from "../components/CatSlider";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { StyleSheet } from "react-native";
+import { UserContext } from "../context/UserContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Orders from "../components/Orders";
+import { ScrollView } from "react-native";
 const { View, Text, SafeAreaView } = require("react-native")
-const Profile = ()=>{
+const Profile = ({navigation})=>{
     const [draw,setDraw]=useState(false)
+    const {userId , setUserId , userInfo}= useContext(UserContext)
+
     return(
 
 
@@ -43,38 +49,60 @@ const Profile = ()=>{
                 <Text className="ml-2">About Us</Text>
             </TouchableOpacity>
             <View className="bg-gray-200 mb-2 h-[1px] w-[90%] mx-auto"></View>
-            <TouchableOpacity className="flex-row px-3 py-2 items-center">
+            {
+                userId?
+            <TouchableOpacity onPress={()=>{setUserId(null);AsyncStorage.setItem("userId","")}} className="flex-row px-3 py-2 items-center">
                 <Icon name="log-out-outline" size={20} color="#333" />
                 <Text className="ml-2">Logout</Text>
             </TouchableOpacity>
+            :
+            <>
+            <TouchableOpacity onPress={()=>navigation.navigate("signin")} className="flex-row px-3 py-2 items-center">
+                <Icon name="log-in-outline" size={20} color="#333" />
+                <Text className="ml-2">Sign in</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={()=>navigation.navigate("signup")} className="flex-row px-3 py-2 items-center">
+                <Icon name="person-add-outline" size={20} color="#333" />
+                <Text className="ml-2">Sign up</Text>
+            </TouchableOpacity>
+            </>
+            }
         </View>
         }
+        <ScrollView>
+        {
+            userId?
+        <>
         <View style={styles.shadow}  className="p-3 m-2 bg-white rounded-2xl relative pt-10 mt-10">
             <View className="absolute left-6 -top-6 w-14 h-14 justify-center mr-1 items-center rounded-2xl bg-[#95BF6D] ">
-                <Text className="text-white text-2xl">AZ</Text>
+                <Text className="text-white text-2xl">{ userInfo?.fname?.toUpperCase()[0] + userInfo?.lname?.toUpperCase()[0]  }</Text>
             </View>
             <View className="pl-3">
             <Text className="py-1 font-medium text-gray-700">
-                name : abdessamade zalmadi
+                name : { userInfo?.fname + " " + userInfo?.lname } 
             </Text>
             <Text className="py-1 font-medium text-gray-700">
-                email : tchisamasamatchi@gmail.com
+                email : { userInfo?.email}
             </Text>
             <Text className="py-1 font-medium text-gray-700">
-                number : 0771337929
+                number : { userInfo?.phone}
             </Text>
             <Text className="py-1 font-medium text-gray-700">
-                address : marrakech aitwrir
+                address : { userInfo?.address }
             </Text>
             </View>
         </View>
-        <View className="flex-1">
-            <Text className="text-2xl text-gray-700 font-medium p-2 px-4">Order History</Text>
-            <View className="flex-1 justify-center items-center">
-                <Icon name="cube-outline" size={80} color="#ccc" />
-                <Text className="text-xl text-gray-400 ">The Order History is empty</Text>
-            </View>
+        <Orders navigation={navigation}></Orders>
+        </>:
+        <View className="flex-1 justify-center items-center">
+            <Text className="text-2xl text-gray-700 font-medium p-2 px-4">Please Signin </Text>
+            <TouchableOpacity onPress={()=>navigation.navigate("signin")} className="px-6 py-3 items-center flex-row bg-[#95BF6D] rounded-full m-3">
+                <Text className="text-white mr-2 text-base font-bold">Sign In</Text>
+                <Icon name="arrow-forward-outline" size={20} color="#fff" />
+            </TouchableOpacity>
         </View>
+        }
+        </ScrollView>
     </SafeAreaView>
     )
 }

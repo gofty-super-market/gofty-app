@@ -3,18 +3,22 @@ import Icon from "@expo/vector-icons/Ionicons";
 import { useContext, useState } from "react";
 import api from "../axios";
 import { CartContext } from "../context/CartContext";
+import { UserContext } from "../context/UserContext";
 
 const CartCard = ({ title, price, quantity,image,id_product,unite,id_cart }) => {
   const [q, setQ] = useState(0);
   const [favorite, setFavorite] = useState(false);
   const {setUpdateCart} = useContext(CartContext)
+    const {userId , setUserId}= useContext(UserContext)
   
 
 
 
   const handelQP = () => {
+    if (userId) {
+      
     var cartFormData = new FormData();
-    cartFormData.append('id_client', 111)
+    cartFormData.append('id_client', userId)
     cartFormData.append('id_product', id_product)
     cartFormData.append('quantity', Number(quantity) + 1)
     cartFormData.append('unite', unite)
@@ -28,11 +32,14 @@ const CartCard = ({ title, price, quantity,image,id_product,unite,id_cart }) => 
     ).then(() => {
         setUpdateCart(p => p + 1)
     })
+    }
 }
 const handelQM = () => {
+    if (userId) {
+      
     if (quantity>1) {
         var cartFormData = new FormData();
-        cartFormData.append('id_client', 111)
+        cartFormData.append('id_client', userId)
         cartFormData.append('id_product', id_product)
         cartFormData.append('quantity', Number(quantity) - 1)
         cartFormData.append('unite', unite)
@@ -47,9 +54,12 @@ const handelQM = () => {
             setUpdateCart(p => p + 1)
         })
     }
+    }
 }
 
 const handelRemove = (id) => {
+        if (userId) {
+          
         var cartFormData = new FormData();
         cartFormData.append('id_cart', id_cart)
         api(
@@ -62,6 +72,7 @@ const handelRemove = (id) => {
         ).then(() => {
             setUpdateCart(p => p + 1)
         })
+        }
 }
 
 

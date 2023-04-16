@@ -8,6 +8,7 @@ import { useContext, useEffect, useState } from "react"
 import api from "../axios"
 import { CartContext } from "../context/CartContext"
 import { FavoriteContext } from "../context/FavoriteContext"
+import { UserContext } from "../context/UserContext"
 
 const ProductPage =({navigation})=>{
     const [q,setQ]=useState(1)
@@ -15,6 +16,8 @@ const ProductPage =({navigation})=>{
     const [productInfo,setProductInfo]=useState({})
     const {cart ,setCart,updateCart,setUpdateCart} = useContext(CartContext)
     const { favs, setFavs , setUpdateFavs , updateFavs } = useContext(FavoriteContext);
+    const {userId , setUserId}= useContext(UserContext)
+
 
     const catTitle = () => {
         let a = cats?.filter((cat) => cat?.id_category == productInfo?.id_category);
@@ -24,9 +27,10 @@ const ProductPage =({navigation})=>{
     useEffect(() => {
         api.get("/product-" + currentProduct).then((res) => {setProductInfo(res.data) });
     }, [currentProduct]);
+
     useEffect(()=>{
         setCurrentCat(catTitle())
-    })
+    },[productInfo])
 
     const getProduct = cart.filter((item) => {
         return item.product.id_product == productInfo.id_product;
@@ -41,9 +45,11 @@ const ProductPage =({navigation})=>{
     };
     
     const addtocartHandler = () => {
+        if (userId) {
+            
           if (isAdded()) {
             var cartFormData = new FormData();
-            cartFormData.append("id_client", 111);
+            cartFormData.append("id_client", userId);
             cartFormData.append("id_product", productInfo.id_product);
             cartFormData.append("quantity", Number(getProduct[0].quantity) + q);
             cartFormData.append("unite", "itme");
@@ -57,7 +63,7 @@ const ProductPage =({navigation})=>{
             });
           } else {
             var cartFormData = new FormData();
-            cartFormData.append("id_client", 111);
+            cartFormData.append("id_client", userId);
             cartFormData.append("id_product", productInfo.id_product);
             cartFormData.append("quantity", q);
             cartFormData.append("unite", "itme");
@@ -70,6 +76,7 @@ const ProductPage =({navigation})=>{
               setUpdateCart((p) => p + 1);
             });
           }
+        }
       };
 
       const handelQChange = (i) => {
@@ -120,9 +127,11 @@ const ProductPage =({navigation})=>{
       };
     
       const handleFav = () => {
+        if (userId) {
+            
         if (!favorite) {
           const FavFormData = new FormData();
-          FavFormData.append("id_client", 111);
+          FavFormData.append("id_client", userId);
           FavFormData.append("id_product", productInfo.id_product);
           api({
             method: "post",
@@ -145,6 +154,7 @@ const ProductPage =({navigation})=>{
           });
         }
         setUpdateFavs(p=>p+1)
+        }
       };
 
 
@@ -160,8 +170,8 @@ const ProductPage =({navigation})=>{
 
     return(
         <SafeAreaView className="flex-1">
-        <ScrollView className="flex-1 bg-white ">
-            <View className="flex-row justify-between items-center p-4">
+        <ScrollView className="flex-1 ">
+            <View className="flex-row justify-between items-center p-4 bg-white">
                     <TouchableOpacity onPress={()=>navigation.navigate("Home")} className="p-2 pr-4 rounded-full flex justify-center items-center ">
                             <Icon name="arrow-back-outline" size={25} color="#777" />
                     </TouchableOpacity>
@@ -174,7 +184,7 @@ const ProductPage =({navigation})=>{
                         }
                     </TouchableOpacity>
             </View>
-            <View className="bg-white ">
+            <View className="bg-white  rounded-2xl ">
             <Image
                 className={"w-[90%] my-4 h-60 mx-auto"}
                 style={{resizeMode: 'contain'}}
@@ -189,7 +199,7 @@ const ProductPage =({navigation})=>{
                 <Text className=" text-base">Per {productInfo?.unite || "item"}</Text>
                 <Text className=" text-gray-500 mt-4">{productInfo?.description || "no description in this product"}</Text>
             </View>
-            <View className="bg-white flex-row p-4 justify-between items-center">
+            <View className="bg-white flex-row p-4 justify-between items-center overflow-hidden rounded-b-3xl border-b-2 border-gray-200">
                 <View className="flex-row  bg-gray-100 border border-gray-200 rounded-full flex justify-center items-center">
                     <TouchableOpacity onPress={()=>handelQChange(-1)} className="p-2 rounded-full flex justify-center items-center ">
                             <Icon name="remove-outline" size={25} color="#777" />
