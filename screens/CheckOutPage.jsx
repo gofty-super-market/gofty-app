@@ -8,9 +8,11 @@ import { ScrollView } from "react-native";
 import { CartContext } from "../context/CartContext";
 import { UserContext } from "../context/UserContext";
 import api from "../axios";
+import { OrederContext } from "../context/OrederContext";
 
 const CheckOutPage = ({navigation}) => {
   const {cart , setUpdateCart} = useContext(CartContext)
+  const {setUpdateHistory} = useContext(OrederContext)
   const {userInfo , userId }=useContext(UserContext)
   const [hoursOpen,setHoursOpen]=useState(false)
   const [delivery, setDelivery] = useState(0);
@@ -90,7 +92,9 @@ const CheckOutPage = ({navigation}) => {
         headers: { "Content-Type": "multipart/form-data" },
       }).then(() => {
         cleanCart();
+        setUpdateHistory(p=>p+1)
         navigation.navigate("thanks")
+
       });
     } 
     
